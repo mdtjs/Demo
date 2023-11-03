@@ -1,8 +1,11 @@
 package com.arya;
 
+import com.arya.Utils.FocusListenerUtil;
+import com.arya.Utils.Format;
+import com.arya.Utils.KeyTypeUtil;
+
 import javax.swing.*;
 import java.awt.*;
-import java.text.NumberFormat;
 
 /**
  * 基于JFrame的Frame工具类
@@ -19,8 +22,8 @@ public class MyFrame extends JFrame implements Format {
     JLabel input_tip = new JLabel("请输入要随机的题号范围：");
 
     /** 题号范围（min ~ max）输入框 */
-    JTextField min_num = new JFormattedTextField(NumberFormat.getIntegerInstance());
-    JTextField max_num = new JFormattedTextField(NumberFormat.getIntegerInstance());
+    JTextField min_input = new JTextField(20);
+    JTextField max_input = new JTextField(20);
 
     /** 生成结果按钮 */
     JButton generate_button = new JButton("生成");
@@ -34,7 +37,7 @@ public class MyFrame extends JFrame implements Format {
         super(title);
 
         Container panel = getContentPane();
-        panel.setLayout(new FlowLayout());
+        panel.setLayout(null);
 
         /** 标题文本样式 */
         content_title.setBounds(0, 30, 500, 50);
@@ -43,16 +46,24 @@ public class MyFrame extends JFrame implements Format {
         panel.add(content_title);
 
         /** 正文文本样式 */
-        input_tip.setBounds(20, 105, 250, 30);
+        input_tip.setBounds(80, 100, 300, 50);
         input_tip.setFont(Format.text);
         input_tip.setForeground(Color.BLACK);
         panel.add(input_tip);
 
         /** 输入框设置 */
-        min_num.setBounds(400, 100, 50, 30);
-        panel.add(min_num);
-        max_num.setBounds(400, 100, 50, 30);
-        panel.add(max_num);
+        min_input.setBounds(200, 150, 50, 30);
+        // min_input焦点监听
+        min_input.addFocusListener(new FocusListenerUtil(min_input, "min"));
+        // 键盘输入监听
+        min_input.addKeyListener(new KeyTypeUtil());
+        panel.add(min_input);
+        max_input.setBounds(300, 150, 50, 30);
+        // max_input焦点监听
+        max_input.addFocusListener(new FocusListenerUtil(max_input, "max"));
+        // 键盘输入监听
+        max_input.addKeyListener(new KeyTypeUtil());
+        panel.add(max_input);
 
         /** 按钮样式 */
         generate_button.setBounds(150, 200, 80, 40);
@@ -78,12 +89,40 @@ public class MyFrame extends JFrame implements Format {
      */
     private void onButtonGenerate() {
 
-        String min = min_num.getText();
-        String max = max_num.getText();
+//        String min = min_num.getText();
+//        String max = max_num.getText();
+//
+//        // 判断输入值是否为空
+//        Object[] options = {"确认", "取消"};
+//        if(min.equals("") || max.equals("")) {
+//            JOptionPane.showOptionDialog(null,
+//                    "请输入数字",
+//                    "错误提示",
+//                    JOptionPane.DEFAULT_OPTION,
+//                    JOptionPane.WARNING_MESSAGE,
+//                    null,
+//                    options,
+//                    options[0]);
+//        }
 
-        // 输入为空弹出提示窗
-        if(min.equals("") || max.equals("")) {
+        int min = Integer.parseInt(min_input.getText());
+        int max = Integer.parseInt(max_input.getText());
 
+        // 判断输入值是否合法
+        if(min > 0 && max <= 2922 && max > min) {
+            // 输出随机值
+            int randomNum = GenerateNum.getNum(min, max);
+            JOptionPane.showMessageDialog(this, "今日题号：" + randomNum);
+        } else {
+            Object[] options = {"确认", "取消"};
+            JOptionPane.showOptionDialog(null,
+                    "输入值不合法",
+                    "错误提示",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
         }
     }
 

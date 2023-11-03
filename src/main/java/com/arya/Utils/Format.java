@@ -1,4 +1,4 @@
-package com.arya;
+package com.arya.Utils;
 
 import java.awt.*;
 

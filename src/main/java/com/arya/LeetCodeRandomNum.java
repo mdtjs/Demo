@@ -1,7 +1,6 @@
 package com.arya;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * @author Arya
