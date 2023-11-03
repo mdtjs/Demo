@@ -12,14 +12,13 @@ public class KeyTypeUtil extends KeyAdapter {
 
     /**
      * 限制输入值为数字
-     * @param event
+     * @param e
      */
-    public void keyType(KeyEvent event) {
+    @Override
+    public void keyTyped(KeyEvent e) {
 
-        String key = "0123456789" + (char)8;
-        if(key.indexOf(event.getKeyChar()) < 0) {
-            // 不是数字取消事件
-            event.consume();
+        if(e.getKeyChar() < '0' || e.getKeyChar() > '9' || e.getKeyCode() == 8) {
+            e.consume();
         }
     }
 }

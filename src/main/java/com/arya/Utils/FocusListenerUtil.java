@@ -5,44 +5,51 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 /**
+ * 实现焦点监听
  * @author Arya
  * @version v1.0
  * @since v1.0
  */
-public class FocusListenerUtil implements FocusListener {
+public class FocusListenerUtil extends JTextField implements FocusListener {
 
-    private JTextField jf;
+     private final String hint;
 
-    private String notice;
+     private boolean showingHint;
 
-    public FocusListenerUtil(JTextField jf, String notice) {
+    /**
+     * 焦点监听构造函数
+     * @param hint 提示
+     */
+    public FocusListenerUtil(final String hint) {
 
-        this.jf = jf;
-        this.notice = notice;
-
-        jf.setText(notice);
-//        jf.setBackground(Color.GRAY);
+        super(hint);
+        this.hint = hint;
+        this.showingHint = true;
+        super.addFocusListener(this);
     }
 
     @Override
     public void focusGained(FocusEvent e) {
 
-        // 获取焦点时，清空提示
-        String gainedFocus = jf.getText();
-        if("notice".equals(gainedFocus)) {
-            jf.setText("");
-//            jf.setForeground(Color.BLACK);
+        // 获取焦点时输入为空，清除提示，将showingHint置为false
+        if(this.getText().isEmpty()) {
+            super.setText("");
+            showingHint = false;
         }
     }
 
     @Override
     public void focusLost(FocusEvent e) {
 
-        // 失去焦点时，如没有输入内容，显示提示
-        String lostFocus = jf.getText();
-        if ("".equals(lostFocus)) {
-//            jf.setForeground(Color.GRAY);
-            jf.setText(notice);
+        // 失去焦点时，如没有输入内容，显示提示，将showingHint置为true
+        if(this.getText().isEmpty()) {
+            super.setText(hint);
+            showingHint = true;
         }
+    }
+
+    @Override
+    public String getText() {
+        return showingHint ?"" : super.getText();
     }
 }

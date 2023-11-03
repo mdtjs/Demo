@@ -22,8 +22,8 @@ public class MyFrame extends JFrame implements Format {
     JLabel input_tip = new JLabel("请输入要随机的题号范围：");
 
     /** 题号范围（min ~ max）输入框 */
-    JTextField min_input = new JTextField(20);
-    JTextField max_input = new JTextField(20);
+    JTextField min_input = new FocusListenerUtil("min");
+    JTextField max_input = new FocusListenerUtil("max");
 
     /** 生成结果按钮 */
     JButton generate_button = new JButton("生成");
@@ -53,15 +53,11 @@ public class MyFrame extends JFrame implements Format {
 
         /** 输入框设置 */
         min_input.setBounds(200, 150, 50, 30);
-        // min_input焦点监听
-        min_input.addFocusListener(new FocusListenerUtil(min_input, "min"));
         // 键盘输入监听
         min_input.addKeyListener(new KeyTypeUtil());
         panel.add(min_input);
+
         max_input.setBounds(300, 150, 50, 30);
-        // max_input焦点监听
-        max_input.addFocusListener(new FocusListenerUtil(max_input, "max"));
-        // 键盘输入监听
         max_input.addKeyListener(new KeyTypeUtil());
         panel.add(max_input);
 
