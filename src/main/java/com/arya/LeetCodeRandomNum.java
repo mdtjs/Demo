@@ -10,13 +10,9 @@ import javax.swing.*;
 public class LeetCodeRandomNum {
 
     public static void main(String[] args) {
+
         // swing组件非同步，需要将修改外观的代码放在单独的线程中
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                initialize();
-            }
-        });
+        SwingUtilities.invokeLater(() -> initialize());
     }
 
     /**
